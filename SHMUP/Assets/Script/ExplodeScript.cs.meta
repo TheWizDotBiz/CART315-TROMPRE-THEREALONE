@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 42fc00a2a9195054fbe8292c63f14c39
+guid: bf968e7622a87cc44a0b1ce9f35cc664
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - explosion: {fileID: 4638767384668494560, guid: 505fff4cfb3e69c4fa4f5ab11edcb282, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -11,6 +11,7 @@ public class FireBulletScript : MonoBehaviour
     private float purpBulletInitSpeed;
     private Vector3 ringBulletInitScale;
     private float ringtimer;
+    [SerializeField] private GameObject explosion;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +77,9 @@ public class FireBulletScript : MonoBehaviour
     {
         if (collision.transform.name == "Hitbox") {
             //Destroy(GameObject.Find("Player"));
+            GameObject thisExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+            thisExplosion.transform.localScale *= 2f;
+            GameObject.Find("restarObject").GetComponent<RestartScript>().gameOver(false);
             GameObject.Find("Player").SetActive(false);
         }
     }

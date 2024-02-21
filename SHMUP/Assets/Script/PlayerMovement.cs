@@ -11,10 +11,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] bulletList;
     [SerializeField] private float[] fireRateList;
     private int bulletIndex;
+
+    private SpriteRenderer sr;
     // Start is called before the first frame update
     void Start()
     {
-        
+        sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -59,11 +61,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown("left shift")) {
             horizontalSpeed /= focusDivider;
             verticalSpeed /= focusDivider;
+            sr.enabled = true;
         }
 
         if (Input.GetKeyUp("left shift")) {
             horizontalSpeed *= focusDivider;
             verticalSpeed *= focusDivider;
+            sr.enabled = false;
         }
 
         //SCHUT

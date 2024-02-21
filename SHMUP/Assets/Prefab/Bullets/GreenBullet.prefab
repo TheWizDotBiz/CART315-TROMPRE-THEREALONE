@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetimeLimit: 7
   speed: 5
+  explosion: {fileID: 4638767384668494560, guid: 505fff4cfb3e69c4fa4f5ab11edcb282, type: 3}
 --- !u!58 &2528086660728446972
 CircleCollider2D:
   m_ObjectHideFlags: 0

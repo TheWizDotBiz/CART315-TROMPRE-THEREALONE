@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BlueBulletScript : MonoBehaviour
 {
-    float speed = 10f;
+    [SerializeField] float speedV;
+    [SerializeField] float speedH;
     Collider2D col;
     float lifetime;
+    [SerializeField] private GameObject explosion;
     
     // Start is called before the first frame update
     void Start()
@@ -18,9 +20,9 @@ public class BlueBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(0, speed * Time.deltaTime, 0);
+        transform.position += new Vector3(speedH * Time.deltaTime, speedV * Time.deltaTime, 0);
        // lifetime += Time.deltaTime;
-        if (transform.position.y >= 5f) {
+        if (transform.position.y >= 5f || transform.position.x < -9f || transform.position.x > 9f) {
             transform.parent.GetComponent<BulletHolderScript>().readyToDestroy();
             gameObject.SetActive(false);
          //   Destroy(gameObject);
@@ -37,6 +39,7 @@ public class BlueBulletScript : MonoBehaviour
             if (collision.transform.GetComponent<TurretScript>().HP <= 0) {
                 Destroy(collision.gameObject);
             }*/
+            Instantiate(explosion, transform.position, Quaternion.identity);
             collision.transform.GetComponent<TurretScript>().takeDamage();
             transform.parent.GetComponent<BulletHolderScript>().readyToDestroy();
             gameObject.SetActive(false);

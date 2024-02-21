@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TurretScript : MonoBehaviour
 {
-    int HP = 100;
+    public int HP = 100;
     GameObject player;
     [SerializeField] GameObject bulletPrefab;
     private float timer;
@@ -15,6 +15,8 @@ public class TurretScript : MonoBehaviour
     private Color colorInit;
     private Quaternion initRot;
     [SerializeField] bool eyeDebug;
+    [SerializeField] private GameObject explosion;
+    private RestartScript rs;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class TurretScript : MonoBehaviour
         initFireRate = fireRate;
         colorInit = GetComponent<SpriteRenderer>().color;
         initRot = transform.rotation;
+        rs = GameObject.Find("restarObject").GetComponent<RestartScript>();
     }
 
     // Update is called once per frame
@@ -108,7 +111,21 @@ public class TurretScript : MonoBehaviour
         HP--;
         colorTimer = 0.1f;
         GetComponent<SpriteRenderer>().color = Color.red;
+        rs.updateHpBar();
         if (HP <= 0) {
+            if (name == "Eye") {
+                rs.gameOver(true);
+                for (int i = 10; i < 10; i++) {
+                    GameObject microExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+                    float randX = Random.Range(-5, 5f);
+                    float randY = Random.Range(-5f, 5f);
+                    float randS = Random.Range(0.5f, 5f);
+                    microExplosion.transform.position += new Vector3(randX, randY, 0);
+                    microExplosion.transform.localScale *= randS;
+                }
+            }
+            GameObject thisExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+            thisExplosion.transform.localScale *= 5f;
             Destroy(gameObject);
         }
     }

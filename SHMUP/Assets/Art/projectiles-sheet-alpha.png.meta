@@ -138,7 +138,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectiles-sheet-alpha_1
+      name: Explode1
       rect:
         serializedVersion: 2
         x: 338
@@ -230,7 +230,7 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -238,6 +238,69 @@ TextureImporter:
       bones: []
       spriteID: 9fa527af31caaaa4e941c3cf68658f79
       internalID: 2048012838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode2
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 264
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fd5c276716ada943ad468e2431f5184
+      internalID: 1701182519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode3
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 236
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3aa181d1a908bc45aa63a8b6e331c69
+      internalID: 240573759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode4
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 208
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a980f9f01e1cfc5468b5da52c8a6fffc
+      internalID: -341088431
       vertices: []
       indices: 
       edges: []
@@ -255,9 +318,12 @@ TextureImporter:
     nameFileIdTable:
       projectiles-sheet-alpha_5: 2048012838
       projectiles-sheet-alpha_2: 96635474
+      Explode1: 203536071
       projectiles-sheet-alpha_3: 1654669759
+      explode4: -341088431
       projectiles-sheet-alpha_0: -1498635222
-      projectiles-sheet-alpha_1: 203536071
+      explode3: 240573759
+      explode2: 1701182519
       projectiles-sheet-alpha_4: -1070047171
   spritePackingTag: 
   pSDRemoveMatte: 0
