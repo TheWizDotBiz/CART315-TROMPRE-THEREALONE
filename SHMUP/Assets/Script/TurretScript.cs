@@ -17,6 +17,7 @@ public class TurretScript : MonoBehaviour
     [SerializeField] bool eyeDebug;
     [SerializeField] private GameObject explosion;
     private RestartScript rs;
+    private AudioSource audio;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class TurretScript : MonoBehaviour
         colorInit = GetComponent<SpriteRenderer>().color;
         initRot = transform.rotation;
         rs = GameObject.Find("restarObject").GetComponent<RestartScript>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class TurretScript : MonoBehaviour
         if (timer >= fireRate) {
             shoot();
             timer = 0;
+            audio.Play();
         }
 
         if (colorTimer > 0) {

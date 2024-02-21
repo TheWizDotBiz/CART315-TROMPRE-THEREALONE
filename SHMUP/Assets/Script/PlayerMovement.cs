@@ -13,10 +13,12 @@ public class PlayerMovement : MonoBehaviour
     private int bulletIndex;
 
     private SpriteRenderer sr;
+    private AudioSource audio;
     // Start is called before the first frame update
     void Start()
     {
         sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -75,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
             if (fireTimer == 0) {
                 Instantiate(bulletList[bulletIndex], transform.position, Quaternion.identity);
                 fireTimer = fireRateList[bulletIndex];
+                audio.Play();
             }
         }
     }
