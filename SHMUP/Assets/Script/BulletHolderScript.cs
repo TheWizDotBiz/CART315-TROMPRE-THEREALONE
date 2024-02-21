@@ -12,4 +12,5 @@ public class BulletHolderScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }

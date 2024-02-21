@@ -31,15 +31,29 @@ public class PlayerMovement : MonoBehaviour
         //CONTROL
         if (Input.GetKey("right")) {
             transform.position += new Vector3(horizontalSpeed * Time.deltaTime, 0, 0);
+            if (transform.position.x >= 8.5f) {
+                transform.position = new Vector3(8.5f, transform.position.y, transform.position.z);
+            }
         }
         if (Input.GetKey("left")) {
             transform.position += new Vector3((horizontalSpeed * -1f) * Time.deltaTime, 0, 0);
+            if (transform.position.x <= -8.5f)
+            {
+                transform.position = new Vector3(-8.5f, transform.position.y, transform.position.z);
+            }
         }
         if (Input.GetKey("up")) {
             transform.position += new Vector3(0, verticalSpeed * Time.deltaTime, 0);
+            if (transform.position.y >= 4.6) {
+                transform.position = new Vector3(transform.position.x, 4.6f, transform.position.z);
+            }
         }
         if (Input.GetKey("down")) {
             transform.position += new Vector3(0, (-1f * verticalSpeed) * Time.deltaTime, 0);
+            if (transform.position.y <= -4.6)
+            {
+                transform.position = new Vector3(transform.position.x, -4.6f, transform.position.z);
+            }
         }
 
         if (Input.GetKeyDown("left shift")) {
