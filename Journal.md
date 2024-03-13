@@ -11,11 +11,12 @@ Creating diverse attack patterns to keep the player on his toes and to give some
 
 fun times.
 
-#PROTOTYPE 1
-###2024/03/??
+# PROTOTYPE 1
+### 2024/03/??
 i forgot to make it lmfao my b g
 
-#PROTOTYPE 2 - SHELLSHOCK
+# PROTOTYPE 2 - SHELLSHOCK
+### 2024/03/12
 I've been wanting to make a boomer shooter type thing since forever but i either didnt have the tech skills to do it or the time to. As much as id like to make one for this class the scale of these games is just too big to be reasonably done. So theoretically this isnt a boomer shooter, we are taking a lot of cues design-wise and aesthetic-wise for this game. Considering im also working on a 3d early 3d aesthetic game on the side i'm also using this as practice or as a testing ground for certain scripts and whatnot that i could bring to that other game later.
 
 Shellshock is a survival FPS with an early 3D aesthetic where you fight off waves of enemies with a pump-action shotgun.
