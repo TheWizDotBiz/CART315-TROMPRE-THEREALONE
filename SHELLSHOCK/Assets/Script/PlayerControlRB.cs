@@ -14,13 +14,13 @@ public class PlayerControlRB : MonoBehaviour
     private float camYaw;
     public float sensitivityH; //default 5, horizontal sensitivity
     public float sensitivityV; //default 5, vertical sensitivity
-    private bool CursorLock;
+    public bool CursorLock;
 
     
     //Movement
     private CharacterController controller;
-    private float velocityFB;
-    private float velocityRL;
+    public float velocityFB;
+    public float velocityRL;
     private bool movingFB = false;
     private bool movingRL = false;
     public float velocitylimit; //Speed limit
