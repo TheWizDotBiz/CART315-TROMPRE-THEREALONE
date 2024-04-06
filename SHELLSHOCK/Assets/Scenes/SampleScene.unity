@@ -1039,7 +1039,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 518745718}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShotgunInitPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1138,7 +1138,7 @@ GameObject:
   - component: {fileID: 618602414}
   - component: {fileID: 618602409}
   - component: {fileID: 618602415}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1284,12 +1284,17 @@ MonoBehaviour:
   - {fileID: 4745347856718425038, guid: 4151b8c3e9f9680499ba25a5c3190e23, type: 3}
   - {fileID: 4745347856718425038, guid: a5db7d109c9764b41a24b9035e16d07c, type: 3}
   UIshellsNames:
-  - 
+  - RELOAD
   - BUCKSHOT
   - SLUG
   - FLARE
   - AIRBLAST
   - INFINITE
+  FiringPoint: {fileID: 820511414}
+  buckShotPelletCount: 5
+  shotImpactPrefab: {fileID: 167764541149365325, guid: 89e68e61aacb48c449e3f2fec1ae18b6, type: 3}
+  anim: {fileID: 6388356859610941674}
+  railgunBullet: {fileID: 8029784536479470079, guid: be8ffac072a73654ca4def7b2f7c6cff, type: 3}
 --- !u!136 &618602415
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1623,6 +1628,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &820511414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 820511415}
+  m_Layer: 2
+  m_Name: FiringPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &820511415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820511414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01909, y: -0, z: 0.00094}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7406139763162059274}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &843983817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1948,7 +1984,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -2423,7 +2459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1253212888}
   - component: {fileID: 1253212889}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2502,7 +2538,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -0.0005061026}
+  m_BoundingSphereOverride: {x: 0, y: 17.084274, z: 9.61e-43, w: 17.084198}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2866,7 +2902,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1711187366}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShotgunAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2979,7 +3015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762881142}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShellExtractPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3556,7 +3592,7 @@ GameObject:
   - component: {fileID: 4146583465227984172}
   m_Layer: 0
   m_Name: skullGuy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3572,7 +3608,7 @@ GameObject:
   - component: {fileID: 926908481731313938}
   - component: {fileID: 8311382696655597356}
   - component: {fileID: 1105543720458027454}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Butt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3667,7 +3703,7 @@ GameObject:
   - component: {fileID: 7406139763162059274}
   - component: {fileID: 2833832854977098625}
   - component: {fileID: 7203192136188190204}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3719,7 +3755,7 @@ GameObject:
   - component: {fileID: 6044903939667268179}
   - component: {fileID: 6388356859610941674}
   - component: {fileID: 6388356859610941675}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3762,6 +3798,7 @@ MonoBehaviour:
   Anchor: {fileID: 1711187365}
   PC: {fileID: 618602409}
   lockAnchor: 0
+  ammoscript: {fileID: 618602414}
 --- !u!33 &6504344568847639344
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3781,7 +3818,7 @@ GameObject:
   - component: {fileID: 1829658217002096004}
   - component: {fileID: 8787350652837625762}
   - component: {fileID: 1794767300710393335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3841,7 +3878,8 @@ Transform:
   m_LocalPosition: {x: 0.0052818954, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 820511415}
   m_Father: {fileID: 6044903939667268179}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3864,7 +3902,7 @@ GameObject:
   - component: {fileID: 5611089353030428050}
   - component: {fileID: 3142735549905283133}
   - component: {fileID: 4256858938938150487}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

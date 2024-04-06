@@ -23,6 +23,8 @@ public class shotgunSway : MonoBehaviour
     private float HplayerVelocty; //same
 
     public bool lockAnchor;
+
+    [SerializeField] private AmmoScript ammoscript;
     // Start is called before the first frame update
 
     // Update is called once per frame
@@ -44,12 +46,13 @@ public class shotgunSway : MonoBehaviour
 
         //print("Hindex: " + Hindex + " Vindex: " + Vindex + "Zindex: " + Zindex);
         //ANIM TESTING
+        /*
         if (Input.GetMouseButtonDown(0)) {
             GetComponent<Animator>().SetTrigger("Shoot");
         }
         if (Input.GetKeyDown("q")) {
             GetComponent<Animator>().SetTrigger("Pump");
-        }
+        }*/
     }
 
     void moveAnchor()
@@ -201,5 +204,11 @@ public class shotgunSway : MonoBehaviour
     }
 
     //interactivity
-   
+    void pumpRunCycleChamber() {
+        ammoscript.CycleChamber();
+    }
+
+    void shootRunShootShotgun() {
+        ammoscript.shootShotgun();
+    }
 }

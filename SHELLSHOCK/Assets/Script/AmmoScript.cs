@@ -18,21 +18,47 @@ public class AmmoScript : MonoBehaviour
     private Color[] UIshellNameColor = {Color.white, Color.red, Color.green, Color.yellow, Color.cyan, Color.magenta};
     List<GameObject> UIshellList = new List<GameObject>();
     List<Vector3> UIshellRotations = new List<Vector3>();
-   // [SerializeField] private GameObject buckshot;
+    // [SerializeField] private GameObject buckshot;
     // Start is called before the first frame update
+
+    //shooting ig
+    [SerializeField] private GameObject FiringPoint;
+    [SerializeField] int buckShotPelletCount;
+    [SerializeField] GameObject shotImpactPrefab;
+    private Camera cam;
+    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject railgunBullet;
     void Start()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         shellName = GameObject.Find("ShellName").GetComponent<TextMeshProUGUI>();
         shellName.text = "";
+        cam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rotateUiShells(); //bad idea
+        rotateUiShells(); //bad idea //ig not
         if (Input.GetMouseButtonDown(1)) { //right click, add spacebar later when jump is disabled
-            CycleChamber();
+                anim.SetTrigger("Pump");
+        }
+        if (Input.GetMouseButtonDown(0)) {
+            if (ammoList.Count > 0)
+            {
+                if (ammoList[0] != 0)
+                {
+                    anim.SetTrigger("Shoot");
+                }
+                else {
+                    dryFire();
+                }
+                
+            }
+            else {
+                dryFire();
+            }
+                
         }
     }
 
@@ -111,7 +137,7 @@ public class AmmoScript : MonoBehaviour
         }
     }
 
-    void CycleChamber() { //what happens when you pump the shotgun
+    public void CycleChamber() { //what happens when you pump the shotgun
         if (ammoList.Count > 0) {
             if (ammoList[0] != 0)
             {
@@ -128,10 +154,90 @@ public class AmmoScript : MonoBehaviour
         }
     }
 
+    public void shootShotgun() {
+        if (ammoList.Count > 0)
+        {
+            if (ammoList[0] != 0)
+            {
+                switch (ammoList[0])
+                {
+                    case 1: //buckshot
+                            //firing
+                        for (int i = 0; i < buckShotPelletCount; i++)
+                        {
+                            float xOffset = Random.Range(-0.075f, 0.075f);
+                            float yOffset = Random.Range(-0.075f, 0.075f);
+                            Vector3 direction = cam.transform.forward + new Vector3(xOffset, yOffset, 0f);
+                            RaycastHit hit;
+                            if (Physics.Raycast(cam.transform.position, direction, out hit, Mathf.Infinity))
+                            {
+                                switch (hit.transform.tag)
+                                {
+                                    case "enemy":
+                                        hit.transform.SendMessage("damage");
+                                        break;
+                                    case "ammo":
+                                        hit.transform.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 25f);
+                                        break;
+                                    default:
+                                        Instantiate(shotImpactPrefab, hit.point, Quaternion.identity);
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case 2: //slug
+                        RaycastHit[] hitsRailgun = Physics.RaycastAll(cam.transform.position, cam.transform.forward, Mathf.Infinity);
+                        Vector3 bulletVisualEndpoint = new Vector3(0,0,0);
+                        for (int i = 0; i < hitsRailgun.Length; i++) {
+                            switch (hitsRailgun[i].transform.tag) {
+                                case "enemy":
+                                    hitsRailgun[i].transform.SendMessage("kill");
+                                    break;
+                                case "ammo":
+                                    hitsRailgun[i].transform.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 250f);
+                                    break;
+                                default:
+                                    Instantiate(shotImpactPrefab, hitsRailgun[i].point, Quaternion.identity);
+                                    bulletVisualEndpoint = hitsRailgun[i].point;
+                                    break;
+                            }
+                        }
+                        GameObject shot = Instantiate(railgunBullet, FiringPoint.transform.position, Quaternion.identity);
+
+                        shot.transform.LookAt(bulletVisualEndpoint);
+                        //shot.transform.position = hitsRailgun[hitsRailgun.Length - 1].transform.position;
+                        /*
+                        if (Physics.RaycastAll(cam.transform.position, cam.transform.forward, out hitRailgun, Mathf.Infinity)) {
+                            
+                        }*/
+                        break;
+                    default:
+
+                        break;
+                }
+                ammoList[0] = 0;
+                RenderShellUI();
+            }
+            else
+            {
+                dryFire();
+            }
+        }
+        else {
+            dryFire();
+        }
+        
+    }
+
+    void dryFire() {
+        print("Click! chamber is empty");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "ammo") {
-            if (ammoList.Count < 8) {
+            if (ammoList.Count < 5) {
                 switch (other.transform.name) {
                     case "shell(clone)":
                     case "shell(Clone)": //this is the correct instantiation name nomenclature, reproduce this for further ammo objects.
@@ -165,12 +271,12 @@ public class AmmoScript : MonoBehaviour
 
                         break;
                 }
+                print("picking up ammo");
+                Destroy(other.gameObject);
+                Vector3 newRot = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                UIshellRotations.Add(newRot);
+                RenderShellUI();
             }
-            print("picking up ammo");
-            Destroy(other.gameObject);
-            Vector3 newRot = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            UIshellRotations.Add(newRot);
-            RenderShellUI();
         }
     }
 }
