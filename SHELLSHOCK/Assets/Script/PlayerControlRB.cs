@@ -39,6 +39,11 @@ public class PlayerControlRB : MonoBehaviour
     private bool grounded;
     private bool jumping;
     public float AirVelocity; //Divides Decelleration when in midair, basically acts as momentum when running and jumping
+
+    //backdraft, the shotgun recoil that makes you move
+    Vector3 backdraftAmount;
+    [SerializeField] float backdraftStrength;
+    [SerializeField] float backdraftFalloff;
     // Start is called before the first frame update
     void Start()
     {
@@ -150,7 +155,7 @@ public class PlayerControlRB : MonoBehaviour
         {
             movingRL = false;
         }
-
+        /*
         if (Input.GetKey("space") && controller.isGrounded) {
             //jump
             JUMP(JumpStrength);
@@ -158,7 +163,7 @@ public class PlayerControlRB : MonoBehaviour
         }
         if (Input.GetKeyUp("space")) {
             jumping = false;
-        }
+        }*/
 
 
         //Limits
@@ -178,9 +183,9 @@ public class PlayerControlRB : MonoBehaviour
             velocityRL = velocitylimit * -1f;
         }
 
-        //Decceleration
+        //Decceleration //TO FIX MOVEMENT STUTTER FOR FUTURE PROJECTS USING THIS MOVEMENT SCRIPT, CHECK THE was STATEMENTS, PROBLEM WAS THAT YOU NEED TO COMPARE VELOCITY TO DECELLERATION, NOT TO ACCELERATION, IDK WHY I DID THAT LMAO
         if (movingFB == false && velocityFB != 0) {
-            if (velocityFB > 0 + (acceleration * Time.deltaTime))
+            if (velocityFB > decceleration * Time.deltaTime) // was 0 + (acceleration * Time.deltaTime)
             {
                 if (controller.isGrounded == false)
                 {
@@ -191,7 +196,7 @@ public class PlayerControlRB : MonoBehaviour
                 }
                 
             }
-            else if (velocityFB < 0 - (acceleration * Time.deltaTime))
+            else if (velocityFB < (decceleration * Time.deltaTime) * -1f) //was 0 - (acceleration * Time.deltaTime)
             {
                 if (controller.isGrounded == false)
                 {
@@ -208,9 +213,9 @@ public class PlayerControlRB : MonoBehaviour
             
         }
 
-        if (movingRL == false && velocityRL != 0)
+        if (movingRL == false && velocityRL != 0) 
         {
-            if (velocityRL > 0 + (acceleration * Time.deltaTime))
+            if (velocityRL > (decceleration * Time.deltaTime)) //was 0 + (acceleration * Time.deltaTime)
             {
                 if (controller.isGrounded == false)
                 {
@@ -221,7 +226,7 @@ public class PlayerControlRB : MonoBehaviour
                 }
                 
             }
-            else if (velocityRL < 0 - (acceleration * Time.deltaTime))
+            else if (velocityRL < (decceleration * Time.deltaTime) * -1f) //was 0 - (acceleration * Time.deltaTime)
             {
                 if (controller.isGrounded == false)
                 {
@@ -238,6 +243,56 @@ public class PlayerControlRB : MonoBehaviour
             }
 
         }
+
+        //backdraft Deceleration
+        if (backdraftAmount != Vector3.zero) {
+            //x
+            if (backdraftAmount.x > 0)
+            {
+                if (backdraftAmount.x > backdraftFalloff * Time.deltaTime)
+                {
+                    backdraftAmount.x -= backdraftFalloff * Time.deltaTime;
+                }
+                else
+                {
+                    backdraftAmount.x = 0f;
+                }
+            }
+            else if (backdraftAmount.x < 0) {
+                if (backdraftAmount.x < (backdraftFalloff * -1f) * Time.deltaTime)
+                {
+                    backdraftAmount.x += backdraftFalloff * Time.deltaTime;
+                }
+                else
+                {
+                    backdraftAmount.x = 0f;
+                }
+            }
+            //z
+            if (backdraftAmount.z > 0)
+            {
+                if (backdraftAmount.z > backdraftFalloff * Time.deltaTime)
+                {
+                    backdraftAmount.z -= backdraftFalloff * Time.deltaTime;
+                }
+                else
+                {
+                    backdraftAmount.z = 0f;
+                }
+            }
+            else if (backdraftAmount.z < 0)
+            {
+                if (backdraftAmount.z < (backdraftFalloff * -1f) * Time.deltaTime)
+                {
+                    backdraftAmount.z += backdraftFalloff * Time.deltaTime;
+                }
+                else
+                {
+                    backdraftAmount.z = 0f;
+                }
+            }
+        }
+        //end backdraft decelleration
 
         //Jumping
         if (controller.isGrounded && jumping == false)
@@ -257,6 +312,11 @@ public class PlayerControlRB : MonoBehaviour
         //Move
         controller.Move((gameObject.transform.forward * velocityFB) * Time.deltaTime);
         controller.Move((gameObject.transform.right * velocityRL) * Time.deltaTime);
+        //for backdraft
+        // print("current backdraft move amount is " + backdraftAmount * Time.deltaTime);
+         controller.Move((backdraftAmount) * Time.deltaTime);
+       // controller.Move(((gameObject.transform.forward) * backdraftAmount.x) * Time.deltaTime);
+        //controller.Move(((gameObject.transform.right) * backdraftAmount.z) * Time.deltaTime);
         if (controller.isGrounded == false) {
             controller.Move((gameObject.transform.up * gravity) * Time.deltaTime);
         }
@@ -268,5 +328,16 @@ public class PlayerControlRB : MonoBehaviour
     {
         jumping = true;
         gravity = STRENGTH;
+    }
+
+    public void backdraft(Vector3 direction) {
+        if (velocityFB > 0) {
+            velocityFB = 0f;
+        }
+        //velocityRL = 0f;
+        backdraftAmount = new Vector3(direction.x * backdraftStrength, 0f, direction.z * backdraftStrength);
+        print("backdraft amount is " + backdraftAmount);
+        jumping = true;
+        gravity = direction.y * backdraftStrength;
     }
 }

@@ -28,19 +28,25 @@ public class AmmoScript : MonoBehaviour
     private Camera cam;
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject railgunBullet;
+    [SerializeField] private GameObject flareBullet;
+    private PlayerControlRB prb;
+    [SerializeField] private Collider airblastSphere;
+    [SerializeField] private muzzleFlashScript muzzleflash;
+    [SerializeField] GameObject endscreen;
     void Start()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         shellName = GameObject.Find("ShellName").GetComponent<TextMeshProUGUI>();
         shellName.text = "";
         cam = Camera.main;
+        prb = GetComponent<PlayerControlRB>();
     }
 
     // Update is called once per frame
     void Update()
     {
         rotateUiShells(); //bad idea //ig not
-        if (Input.GetMouseButtonDown(1)) { //right click, add spacebar later when jump is disabled
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown("space")) { //right click, add spacebar later when jump is disabled
                 anim.SetTrigger("Pump");
         }
         if (Input.GetMouseButtonDown(0)) {
@@ -159,10 +165,11 @@ public class AmmoScript : MonoBehaviour
         {
             if (ammoList[0] != 0)
             {
+                bool isInfinite = false;
                 switch (ammoList[0])
                 {
                     case 1: //buckshot
-                            //firing
+                    case 5: //infinite
                         for (int i = 0; i < buckShotPelletCount; i++)
                         {
                             float xOffset = Random.Range(-0.075f, 0.075f);
@@ -180,10 +187,19 @@ public class AmmoScript : MonoBehaviour
                                         hit.transform.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 25f);
                                         break;
                                     default:
-                                        Instantiate(shotImpactPrefab, hit.point, Quaternion.identity);
+                                       // Instantiate(shotImpactPrefab, hit.point, Quaternion.identity); //put bullet hit here
                                         break;
                                 }
                             }
+                        }
+                        applyBackdraft(10f);
+                        if (ammoList[0] == 5)
+                        {
+                            isInfinite = true;
+                            muzzleflash.lightMuzzle(4);
+                        }
+                        else {
+                            muzzleflash.lightMuzzle(0);
                         }
                         break;
                     case 2: //slug
@@ -198,7 +214,7 @@ public class AmmoScript : MonoBehaviour
                                     hitsRailgun[i].transform.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 250f);
                                     break;
                                 default:
-                                    Instantiate(shotImpactPrefab, hitsRailgun[i].point, Quaternion.identity);
+                                 //   Instantiate(shotImpactPrefab, hitsRailgun[i].point, Quaternion.identity); //put slug impact here
                                     bulletVisualEndpoint = hitsRailgun[i].point;
                                     break;
                             }
@@ -206,15 +222,41 @@ public class AmmoScript : MonoBehaviour
                         GameObject shot = Instantiate(railgunBullet, FiringPoint.transform.position, Quaternion.identity);
 
                         shot.transform.LookAt(bulletVisualEndpoint);
+                        applyBackdraft(12.5f);
+                        muzzleflash.lightMuzzle(1);
                         //shot.transform.position = hitsRailgun[hitsRailgun.Length - 1].transform.position;
                         /*
                         if (Physics.RaycastAll(cam.transform.position, cam.transform.forward, out hitRailgun, Mathf.Infinity)) {
                             
                         }*/
                         break;
+                    case 3:// flare
+                        for (int f = 0; f < buckShotPelletCount; f++) {
+                            float xOffset = Random.Range(-0.075f, 0.075f);
+                            float yOffset = Random.Range(-0.075f, 0.075f);
+                            Vector3 direction = cam.transform.forward + new Vector3(xOffset, yOffset, 0f);
+                            RaycastHit hit;
+                            if (Physics.Raycast(cam.transform.position, direction, out hit, Mathf.Infinity)) {
+                                GameObject thisShot = Instantiate(flareBullet, FiringPoint.transform.position, cam.transform.rotation);
+                                thisShot.transform.LookAt(hit.point);
+                            }
+                        }
+                        applyBackdraft(10f);
+                        muzzleflash.lightMuzzle(2);
+                        break;
+                    case 4: //airblast
+                        airblastSphere.enabled = true;
+                        applyBackdraft(20f);
+                        muzzleflash.lightMuzzle(3);
+                        break;
                     default:
 
                         break;
+                }
+                if (isInfinite) {
+                    ammoList.Add(5);
+                    Vector3 newRot = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                    UIshellRotations.Add(newRot);
                 }
                 ammoList[0] = 0;
                 RenderShellUI();
@@ -234,10 +276,15 @@ public class AmmoScript : MonoBehaviour
         print("Click! chamber is empty");
     }
 
+    void applyBackdraft(float strength) {
+        Vector3 direction = cam.transform.forward * strength;
+        prb.backdraft(direction * -1f);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "ammo") {
-            if (ammoList.Count < 5) {
+            if (ammoList.Count < 8) {
                 switch (other.transform.name) {
                     case "shell(clone)":
                     case "shell(Clone)": //this is the correct instantiation name nomenclature, reproduce this for further ammo objects.
@@ -278,5 +325,17 @@ public class AmmoScript : MonoBehaviour
                 RenderShellUI();
             }
         }
+    }
+
+    public void die() {
+        prb.enabled = false;
+        //GetComponent<CharacterController>().enabled = false;
+        Destroy(GetComponent<CharacterController>());
+        GetComponent<Collider>().isTrigger = false;
+        gameObject.AddComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.None;
+        Destroy(muzzleflash.gameObject.transform.parent.parent.gameObject); //shotgun
+        endscreen.SetActive(true);
+       // GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
     }
 }
