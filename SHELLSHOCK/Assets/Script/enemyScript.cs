@@ -25,7 +25,8 @@ public class enemyScript : MonoBehaviour
     ParticleSystem part;
     [SerializeField] GameObject gib;
     shellSpawnerScript SSS;
-    public float speedIncrement = 0.1f;
+    public float speedIncrement;
+    AudioSource audio;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +35,7 @@ public class enemyScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         part = GetComponent<ParticleSystem>();
         SSS = GameObject.Find("ShellSpawners").GetComponent<shellSpawnerScript>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -132,6 +134,9 @@ public class enemyScript : MonoBehaviour
         {
             eyeR.SetActive(true);
             eyeL.SetActive(true);
+            if (!audio.isPlaying) {
+                audio.Play();
+            }
         }
         else {
             eyeR.SetActive(false);

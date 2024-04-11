@@ -33,6 +33,10 @@ public class AmmoScript : MonoBehaviour
     [SerializeField] private Collider airblastSphere;
     [SerializeField] private muzzleFlashScript muzzleflash;
     [SerializeField] GameObject endscreen;
+
+    //audio
+    [SerializeField] AudioSource audio;
+    [SerializeField] AudioClip[] sounds; //0 shoot, //1 pump //2 pickup //3 die //4 dryfire
     void Start()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -157,6 +161,8 @@ public class AmmoScript : MonoBehaviour
             ammoList.Remove(0);
             UIshellRotations.Remove(UIshellRotations[0]);
             RenderShellUI();
+            audio.clip = sounds[1];
+            audio.Play();
         }
     }
 
@@ -253,13 +259,18 @@ public class AmmoScript : MonoBehaviour
 
                         break;
                 }
-                if (isInfinite) {
+                /*
+                if (isInfinite) { //inifite shell that requries pumping
                     ammoList.Add(5);
                     Vector3 newRot = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                     UIshellRotations.Add(newRot);
+                }*/
+                if (!isInfinite) { //infinite shell that does NOT require pumping
+                    ammoList[0] = 0;
                 }
-                ammoList[0] = 0;
                 RenderShellUI();
+                audio.clip = sounds[0];
+                audio.Play();
             }
             else
             {
@@ -273,7 +284,9 @@ public class AmmoScript : MonoBehaviour
     }
 
     void dryFire() {
-        print("Click! chamber is empty");
+        //print("Click! chamber is empty");
+        audio.clip = sounds[4];
+        audio.Play();
     }
 
     void applyBackdraft(float strength) {
@@ -323,6 +336,8 @@ public class AmmoScript : MonoBehaviour
                 Vector3 newRot = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                 UIshellRotations.Add(newRot);
                 RenderShellUI();
+                audio.clip = sounds[2];
+                audio.Play();
             }
         }
     }
@@ -336,6 +351,8 @@ public class AmmoScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Destroy(muzzleflash.gameObject.transform.parent.parent.gameObject); //shotgun
         endscreen.SetActive(true);
+        audio.clip = sounds[3];
+        audio.Play();
        // GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
     }
 }
