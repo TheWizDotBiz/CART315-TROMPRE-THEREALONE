@@ -198,7 +198,7 @@ public class AmmoScript : MonoBehaviour
                                 }
                             }
                         }
-                        applyBackdraft(10f);
+                        applyBackdraft(12.5f);
                         if (ammoList[0] == 5)
                         {
                             isInfinite = true;
@@ -228,7 +228,7 @@ public class AmmoScript : MonoBehaviour
                         GameObject shot = Instantiate(railgunBullet, FiringPoint.transform.position, Quaternion.identity);
 
                         shot.transform.LookAt(bulletVisualEndpoint);
-                        applyBackdraft(12.5f);
+                        applyBackdraft(15f);
                         muzzleflash.lightMuzzle(1);
                         //shot.transform.position = hitsRailgun[hitsRailgun.Length - 1].transform.position;
                         /*

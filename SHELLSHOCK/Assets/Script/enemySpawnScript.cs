@@ -14,7 +14,7 @@ public class enemySpawnScript : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= interval) {
+        if (timer >= interval - (difficulty * 0.025f)) {
             if (spawnedEnemies < difficulty)
             {
                 spawnEnemy();

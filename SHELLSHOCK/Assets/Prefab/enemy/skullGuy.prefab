@@ -144,7 +144,7 @@ MonoBehaviour:
   eyeL: {fileID: 2625670026952759414}
   eyeLightDistance: 10
   gib: {fileID: 4533810871638434152, guid: 4ff878107b512064d98a9546c89f1349, type: 3}
-  speedIncrement: 0.5
+  speedIncrement: 0.2
 --- !u!135 &2160565960078583785
 SphereCollider:
   m_ObjectHideFlags: 0
