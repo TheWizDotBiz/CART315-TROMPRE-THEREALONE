@@ -145,6 +145,7 @@ MonoBehaviour:
   eyeLightDistance: 10
   gib: {fileID: 4533810871638434152, guid: 4ff878107b512064d98a9546c89f1349, type: 3}
   speedIncrement: 0.2
+  rocketPrefab: {fileID: 7380227340348329352, guid: 3022864343c35784295e06b3e33866e5, type: 3}
 --- !u!135 &2160565960078583785
 SphereCollider:
   m_ObjectHideFlags: 0

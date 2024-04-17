@@ -37,6 +37,15 @@ public class AmmoScript : MonoBehaviour
     //audio
     [SerializeField] AudioSource audio;
     [SerializeField] AudioClip[] sounds; //0 shoot, //1 pump //2 pickup //3 die //4 dryfire
+
+    //score
+    int score = 0;
+    int kills = 0;
+    TextMeshProUGUI scoreText;
+    TextMeshProUGUI airtimeText;
+    TextMeshProUGUI killsText;
+    int lastScoreVal;
+    float lastAirtimeVal;
     void Start()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -44,6 +53,9 @@ public class AmmoScript : MonoBehaviour
         shellName.text = "";
         cam = Camera.main;
         prb = GetComponent<PlayerControlRB>();
+        scoreText = GameObject.Find("scoreText").GetComponent<TextMeshProUGUI>();
+        airtimeText = GameObject.Find("airtimeText").GetComponent<TextMeshProUGUI>();
+        killsText = GameObject.Find("killsText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -70,6 +82,12 @@ public class AmmoScript : MonoBehaviour
             }
                 
         }
+
+        if (lastAirtimeVal != prb.airtime || lastScoreVal != score) {
+            handleText();
+        }
+        lastAirtimeVal = prb.airtime;
+        lastScoreVal = score;
     }
 
     //this is compatible with characterController collision, but is called every frame where there is collision, and there is no alternative, maybye adding a seaprate collider on player would be a better option?
@@ -353,6 +371,43 @@ public class AmmoScript : MonoBehaviour
         endscreen.SetActive(true);
         audio.clip = sounds[3];
         audio.Play();
+
+        //record high scores
+        if (PlayerPrefs.GetInt("HiScore") < score) {
+            PlayerPrefs.SetInt("HiScore", score);
+            endscreen.transform.GetChild(1).gameObject.SetActive(true);
+            endscreen.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "NEW HIGH SCORE! : " + PlayerPrefs.GetInt("HiScore");
+            //activate text for new hi score
+        }
+        if (PlayerPrefs.GetInt("HiKillcount") < kills) {
+            PlayerPrefs.SetInt("HiKillcount", kills);
+            endscreen.transform.GetChild(3).transform.GetChild(2).gameObject.SetActive(true);
+            endscreen.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "NEW TOP KILLS! :" + PlayerPrefs.GetInt("HiKillcount") + " DEAD KRAZY GUYZ";
+        }
+        if (PlayerPrefs.GetFloat("HiAirtime") < prb.highestAirtime) {
+            PlayerPrefs.SetFloat("HiAirtime", prb.highestAirtime);
+            endscreen.transform.GetChild(2).gameObject.SetActive(true);
+            endscreen.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "NEW LONGEST AIRTIME! : " + Mathf.RoundToInt((100f * (1f + PlayerPrefs.GetFloat("HiAirtime"))) * (1f + (kills / 100f)));
+        }
+        //airtime hiscore
        // GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+    }
+
+    public void scorePoints() {
+        kills++;
+        score += Mathf.RoundToInt((100f * (1f + prb.airtime)) * (1f + (kills / 100f))); //the math is to round up to 2 decimals
+    }
+
+    public void handleText() {
+        if (prb.airtime >= 0.1f) //this is because there are some flickering issues with the airTime on prb when grounded, we basically just dont display it if its not high enough
+        {
+            airtimeText.text = "AIRTIME: " + (Mathf.Round(prb.airtime * 100)) / 100.0 + "s";
+        }
+        else {
+            airtimeText.text = "AIRTIME: 0s";
+        }
+       
+        scoreText.text = "SCORE: " + score;
+        killsText.text = "FRAGS: " + kills;
     }
 }

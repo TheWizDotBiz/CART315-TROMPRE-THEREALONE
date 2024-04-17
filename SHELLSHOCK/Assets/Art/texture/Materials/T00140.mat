@@ -84,7 +84,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AffineDistortion: 0
+    - _AffineDistortion: 0.005
     - _BlendMode: 0
     - _BumpScale: 1
     - _Cull: 2
@@ -112,7 +112,7 @@ Material:
     - _SpecularStrength: 0.75
     - _SrcBlend: 1
     - _UVSec: 0
-    - _VertexPrecision: 0.0029285713
+    - _VertexPrecision: 0.01
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -44,6 +44,11 @@ public class PlayerControlRB : MonoBehaviour
     Vector3 backdraftAmount;
     [SerializeField] float backdraftStrength;
     [SerializeField] float backdraftFalloff;
+
+    //for shellshock score
+    public float airtime;
+    public float highestAirtime = 0;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +74,7 @@ public class PlayerControlRB : MonoBehaviour
         
        
         gravity = 0f;
+       
     }
 
     // Update is called once per frame
@@ -298,13 +304,22 @@ public class PlayerControlRB : MonoBehaviour
         if (controller.isGrounded && jumping == false)
         {
             //THAT was the issue with IsGrounded toggling on and off incessantly, basically never set gravity to 0 since IsGrounded and controller SkinWidth prevents that from happening
-          //  gravity = 0;
+            gravity = 0; //comment back if it causes issues again //EDIT 2024/04/17 DID fix the falling off platform at high velocity bug, but fucks up airtime for some reason //EDIT doesnt actually fuck it up it just flickers really low values, i filtered it out in the handleText() on ammoScript
+            if (airtime > highestAirtime) {
+                highestAirtime = airtime;
+            }
+            airtime = 0;
         }
         else {
             gravity -= falloff * Time.deltaTime;
             if (gravity < falloff * -5f)
             {
                 gravity = falloff * -5f;
+            }
+            airtime += Time.deltaTime;
+
+            if (!controller.isGrounded) {
+                jumping = false;
             }
         }
 
@@ -336,8 +351,12 @@ public class PlayerControlRB : MonoBehaviour
         }
         //velocityRL = 0f;
         backdraftAmount = new Vector3(direction.x * backdraftStrength, 0f, direction.z * backdraftStrength);
+        print("backdraft direction y is " + direction.y);
         print("backdraft amount is " + backdraftAmount);
-        jumping = true;
+        if (direction.y > 0) { //basically dont count it as a jump if youre not aiming downwards, otherwise airtime starts increasing on its own despite the controller being technically grounded, something about the direct velocity manipulation fucking with that
+            jumping = true;
+        }
+        
         gravity = direction.y * backdraftStrength;
     }
 }

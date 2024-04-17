@@ -27,6 +27,7 @@ public class enemyScript : MonoBehaviour
     shellSpawnerScript SSS;
     public float speedIncrement;
     AudioSource audio;
+    [SerializeField] GameObject rocketPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -153,8 +154,7 @@ public class enemyScript : MonoBehaviour
         Instantiate(gib, transform.position, Quaternion.identity);
         HP--;
         if (HP <= 0) {
-            rollForLoot();
-            Destroy(gameObject);
+            kill();
         }
     }
 
@@ -162,6 +162,14 @@ public class enemyScript : MonoBehaviour
         part.Play();
         Instantiate(gib, transform.position, Quaternion.identity);
         rollForLoot();
+        Player.GetComponent<AmmoScript>().scorePoints();
+        for (int i = 0; i < 2; i++) {
+            GameObject thisRocket = Instantiate(rocketPrefab, transform.position, Quaternion.identity);
+            Quaternion randRot = new Quaternion(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            Physics.IgnoreCollision(Player.GetComponent<Collider>(), thisRocket.GetComponent<Collider>(), true);
+            thisRocket.GetComponent<Rigidbody>().AddForce(transform.forward * -1f * 25f);
+            thisRocket.GetComponent<Rigidbody>().AddTorque((transform.forward * -1f) * Random.Range(-1f, 1f) * 50f);
+        }
         Destroy(gameObject);
     }
 

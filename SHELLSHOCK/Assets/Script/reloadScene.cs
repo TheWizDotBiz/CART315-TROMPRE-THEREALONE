@@ -15,18 +15,24 @@ public class reloadScene : MonoBehaviour
     {
         if (active)
         {
-            SceneManager.LoadScene(0); //this is just because the fadeval shit isnt working rn so uhh fuck waiting 1.5 seconds
+            SceneManager.LoadScene(1); //this is just because the fadeval shit isnt working rn so uhh fuck waiting 1.5 seconds
             fadeVal += Time.deltaTime * fadespeed;
             Camera.main.GetComponent<PSFXCamera>().Fade = fadeVal;
-            if (fadeVal >= 1f) {
-                SceneManager.LoadScene(0);
+            if (fadeVal >= 1f)
+            {
+                SceneManager.LoadScene(1);
             }
         }
-        else if (Input.GetKeyDown("r")) {
-            if (endscreen.activeSelf) {
+        else if (Input.GetKeyDown("r"))
+        {
+            if (endscreen.activeSelf)
+            {
                 active = true;
                 endscreen.SetActive(false);
             }
+        }
+        else if (Input.GetKeyDown("b")) {
+            SceneManager.LoadScene(0);
         }
     }
 }
