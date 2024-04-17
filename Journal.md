@@ -43,3 +43,5 @@ Been a ride, while i had to constrict a lot of the core ideas at concepts into a
 Fun note too, i've recycled a lot of code that i've been using for other projects and using them here has led me to find numerous bugs and optimization methods, so that's good. Didn't get to directly work on personal projects but this legitimately helped that project a LOT.
 
 Also pleasantly surprised to see that the game didn't diverge much design-wise from the original concept, which is novel on my part, hopefully it means i'm getting better at this.
+
+I don't really document my work much, I do easily over two hours of transit getting to uni, plenty of time to just think about games. EXTREMELY bad practice by the by, but to each his own.
