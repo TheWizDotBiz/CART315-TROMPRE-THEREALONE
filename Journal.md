@@ -33,3 +33,13 @@ The current ammo types we have are:
 Enemy-wise right now i'm going to stick to having flying drone-like enmies that sort of beeline for the player? i think with navmeshes this should be easily doable since my experience with making pathfinding AI in 3d environments is pretty limited. we'll see how it goes.
 
 As of 2024/03/12, the prototype has some basic features in, the PSX shader, character controller, and a system to pick up ammunition, cycle them out of your shotgun and eject them, and models/textures for all these ammo. still a lotta work to be done unfortunately.
+
+# THE FINAL
+### 2024/04/17
+Is done.
+
+Been a ride, while i had to constrict a lot of the core ideas at concepts into a smaller scoped game (as it goes in game development) I think the end result is a satisfying, fun experience that is highly replayable.
+
+Fun note too, i've recycled a lot of code that i've been using for other projects and using them here has led me to find numerous bugs and optimization methods, so that's good. Didn't get to directly work on personal projects but this legitimately helped that project a LOT.
+
+Also pleasantly surprised to see that the game didn't diverge much design-wise from the original concept, which is novel on my part, hopefully it means i'm getting better at this.
