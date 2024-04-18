@@ -45,3 +45,5 @@ Fun note too, i've recycled a lot of code that i've been using for other project
 Also pleasantly surprised to see that the game didn't diverge much design-wise from the original concept, which is novel on my part, hopefully it means i'm getting better at this.
 
 I don't really document my work much, I do easily over two hours of transit getting to uni, plenty of time to just think about games. EXTREMELY bad practice by the by, but to each his own.
+
+This project (and by extension this course) has been widly cathartic though. I've always wanted to make an old-school style shooter since I started making games a little over 10 years ago and SHELLSHOCK is probably one of the first games that I'm truly proud of making. I don't consider it my greatest project by any means, but it feels fantastic to be finally able to create games the likes of which I dreamed of making way back when.  It doesn't have the depth i'd like it to have but I am glad i designed it with replayability in mind despite the fact it has no enemy variety and a single map.
